@@ -15,6 +15,62 @@ NOTES:
 
 #include <stdio.h>
 
+int binary_search(int *, int, int);
 void * studentsCount(int *Arr, int len, int score, int *lessCount, int *moreCount) {
-	return NULL;
+	if (Arr == NULL || len<0 || score<0)
+		return NULL;
+	else if (len == 1){
+		if (Arr[0] == score)
+			*lessCount = *moreCount = 0;
+		else if (Arr[0] < score){
+			*lessCount = 1;
+			*moreCount = 0;
+		}
+		else{
+			*lessCount = 0;
+			*moreCount = 1;
+		}
+
+	}
+	else
+	{
+		int i, st_ind, no_dup, j;
+		i = binary_search(Arr, len, score);
+		if (i < 0){
+			return NULL;
+		}
+		else{
+			no_dup = 0;
+			st_ind = i;
+			for (; score == Arr[i] && i >= 0; i--){
+				st_ind = i;
+			}
+			for (; score == Arr[i + 1] && i < len; i++){
+				no_dup++;
+			}
+			*moreCount = len - (st_ind + no_dup);
+			*lessCount = len - (*moreCount + no_dup);
+		}
+	}
+}
+int binary_search(int *Arr, int len, int score){
+	int mid, lb, ub;
+	lb = 0;
+	ub = len - 1;
+	while (lb <= ub){
+		mid = (lb + ub) / 2;
+		if (Arr[mid] == score){
+			return mid;
+		}
+		else if (mid>0 && mid<len&&Arr[mid - 1]<score&&Arr[mid + 1]>score){
+			return mid;
+		}
+		else if (Arr[mid] < score){
+			lb = mid + 1;
+		}
+		else if (Arr[mid]>score){
+			ub = mid - 1;
+		}
+	}
+	return -1;
 }

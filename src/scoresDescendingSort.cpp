@@ -14,12 +14,50 @@ NOTES:
 */
 
 #include <stdio.h>
+#include<stdlib.h>
 
 struct student {
 	char name[10];
 	int score;
 };
 
+void sorting(struct student *, int);
+void string_copy(char *, char *);
+
 void * scoresDescendingSort(struct student *students, int len) {
-	return NULL;
+	if (students == NULL || len<0)
+		return NULL;
+
+
+	sorting(students, len);
+
+}
+void sorting(struct student *std, int len){		//selection sort
+	int i, j, temp, max;
+	char str_temp[10];
+	for (i = 0; i<len; i++){
+		max = i;
+		for (j = i + 1; j<len; j++){
+			if (std[max].score<std[j].score){
+				max = j;
+			}
+		}
+		if (i != max){
+			temp = std[i].score;
+			std[i].score = std[max].score;
+			std[max].score = temp;
+
+			string_copy(std[i].name, str_temp);
+			string_copy(std[max].name, std[i].name);
+			string_copy(str_temp, std[max].name);
+		}
+	}
+}
+
+void string_copy(char *source, char *desti){
+	int i;
+	for (i = 0; source[i] != '\0'; i++){
+		desti[i] = source[i];
+	}
+	desti[i] = '\0';
 }
