@@ -22,18 +22,17 @@ struct student {
 };
 
 void sorting(struct student *, int);
-void string_copy(char *, char *);
 
 void * scoresDescendingSort(struct student *students, int len) {
 	if (students == NULL || len<0)
 		return NULL;
 
-
 	sorting(students, len);
 
 }
 void sorting(struct student *std, int len){		//selection sort
-	int i, j, temp, max;
+	int i, j,max;
+	struct student *temp = (struct student *)malloc(sizeof(struct student));
 	char str_temp[10];
 	for (i = 0; i<len; i++){
 		max = i;
@@ -43,21 +42,9 @@ void sorting(struct student *std, int len){		//selection sort
 			}
 		}
 		if (i != max){
-			temp = std[i].score;
-			std[i].score = std[max].score;
-			std[max].score = temp;
-
-			string_copy(std[i].name, str_temp);
-			string_copy(std[max].name, std[i].name);
-			string_copy(str_temp, std[max].name);
+			temp[0] = std[i];
+			std[i] = std[max];
+			std[max] = temp[0];
 		}
 	}
-}
-
-void string_copy(char *source, char *desti){
-	int i;
-	for (i = 0; source[i] != '\0'; i++){
-		desti[i] = source[i];
-	}
-	desti[i] = '\0';
 }
