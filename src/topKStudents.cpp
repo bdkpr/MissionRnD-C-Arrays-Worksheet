@@ -17,7 +17,6 @@ NOTES:
 #include <malloc.h>
 
 void sel_sort(struct student *, int);
-void copy_string(char *, char *);
 struct student {
 	char *name;
 	int score;
@@ -45,7 +44,8 @@ struct student ** topKStudents(struct student *students, int len, int K) {
 	}
 }
 void sel_sort(struct student *stu, int len){	//sorting the data according to scores
-	int i, j, min, temp;
+	int i, j, min;
+	struct student *temp = (struct student *)malloc(sizeof(student));
 	char str_temp[31];
 	for (i = 0; i < len; i++){
 		min = i;
@@ -55,22 +55,9 @@ void sel_sort(struct student *stu, int len){	//sorting the data according to sco
 			}
 		}
 		if (i != min){
-			temp = stu[i].score;
-			stu[i].score = stu[min].score;
-			stu[min].score = temp;
-
-			/*
-			copy_string(str_temp, stu[i].name);
-			copy_string(stu[min].name, stu[i].name);
-			copy_string(str_temp, stu[min].name);
-			*/
+			temp[0] = stu[i];
+			stu[i] = stu[min];
+			stu[min] = temp[0];
 		}
 	}
-}
-void copy_string(char *source, char *desti){		//string copy
-	int i;
-	for (i = 0; source[i] != '\0'; i++){
-		desti[i] = source[i];
-	}
-	desti[i] = '\0';
 }
